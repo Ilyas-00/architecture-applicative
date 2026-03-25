@@ -22,6 +22,12 @@ class SchoolClass:
     def add_student(self, student: Student):
         self._students.append(student)
 
+    def rank_matter_1(self):
+        print('\n--- Classement Matière 1 ---')
+        sorted_students = sorted(self._students, key=lambda s: s.matter1, reverse=True)
+        for student in sorted_students:
+            print(student)
+
 
 if __name__ == '__main__':
     school_class = SchoolClass()
@@ -29,5 +35,4 @@ if __name__ == '__main__':
     school_class.add_student(Student('A', 8, 2, 17))
     school_class.add_student(Student('V', 9, 14, 14))
 
-    for s in school_class._students:
-        print(s)
+    school_class.rank_matter_1()
