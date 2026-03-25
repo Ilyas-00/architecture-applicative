@@ -1,4 +1,14 @@
 from collections.abc import Iterable, Iterator
+from abc import ABCMeta
+
+
+class SingletonMeta(ABCMeta):
+    instance = None
+
+    def __call__(cls, *args, **kwargs):
+        if cls.instance is None:
+            cls.instance = super().__call__(*args, **kwargs)
+        return cls.instance
 
 
 def add_matter4(cls):
@@ -101,7 +111,7 @@ class StudentIteratorMatter3(Iterator):
 
 
 @add_iter_matter4
-class SchoolClass(Iterable):
+class SchoolClass(Iterable, metaclass=SingletonMeta):
 
     def __init__(self):
         self._students = []
@@ -120,7 +130,12 @@ class SchoolClass(Iterable):
 
 
 if __name__ == '__main__':
+    # Test Singleton
     school_class = SchoolClass()
+    school_class_copy = SchoolClass()
+    assert school_class is school_class_copy
+    print('Singleton OK : même instance')
+
     school_class.add_student(Student('J', 10, 12, 13, 15))
     school_class.add_student(Student('A', 8, 2, 17, 11))
     school_class.add_student(Student('V', 9, 14, 14, 18))
@@ -140,4 +155,3 @@ if __name__ == '__main__':
     print('\n Iterator Matière 4 ')
     for student in school_class.iter_matter_4():
         print(student)
-
